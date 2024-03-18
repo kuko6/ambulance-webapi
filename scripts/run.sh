@@ -29,6 +29,9 @@ case "$command" in
     "mongo")
         mongo up
         ;;
+    "test")
+        go test ./...
+        ;;
     *)
         echo "Unknown command: $command" >&2
         exit 1
