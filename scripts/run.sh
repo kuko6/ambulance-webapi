@@ -32,6 +32,9 @@ case "$command" in
     "test")
         go test ./...
         ;;
+    "docker")
+        docker build -t kuko6/ambulance-wl-webapi:local-build -f ${project_root}/build/docker/Dockerfile .
+        ;;
     *)
         echo "Unknown command: $command" >&2
         exit 1
