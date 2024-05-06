@@ -3,10 +3,20 @@ package ambulance_wl
 import (
 	"time"
 
+	"context"
 	"slices"
+
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
 )
 
-func (this *Ambulance) reconcileWaitingList() {
+func (this *Ambulance) reconcileWaitingList(ctx context.Context) {
+	_, span := tracer.Start(ctx, "reconcileWaitingList",
+		trace.WithAttributes(attribute.String("ambulanceId", this.Id)),
+		trace.WithAttributes(attribute.String("ambulanceName", this.Name)),
+	)
+	defer span.End()
+
 	slices.SortFunc(this.WaitingList, func(left, right WaitingListEntry) int {
 		if left.WaitingSince.Before(right.WaitingSince) {
 			return -1
